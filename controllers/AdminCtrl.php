@@ -6,7 +6,9 @@ use \Exception as Exception;
 
 class AdminCtrl{
 
-	public function Listing($ctrl){
+	private $instance = null;
+
+	public function getCtrlClass($ctrl){
 		try{
 			$adminPath = dirname(__FILE__) . "/../admin";
 			
@@ -20,15 +22,51 @@ class AdminCtrl{
 			
 			require_once $filename;
 
-			$instance = new $className();
-
-			if(!method_exists($instance, "Listview"))
-				throw new Exception("Não há listagem difinida para a rotina: ". $className);
-
-			$instance->Listview();
+			$this->instance = new $className();
 
 		}catch(Exception $e){
 			echo $e->getMessage();
+		}
+	}
+
+	public function Listing($ctrl){
+		try{
+			$this->getCtrlClass($ctrl);
+
+			if(!method_exists($this->instance, "Listview"))
+				throw new Exception("Não há listagem difinida para a rotina: ". $className);
+
+			$this->instance->Listview();
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
+	public function Add($ctrl){
+		try{
+			$this->getCtrlClass($ctrl);
+
+			if(method_exists($this->instance, "BeforeInsert")){
+				$validations = $this->instance->BeforeInsert();
+				if(is_array($validations) || is_string($validations)){
+					$this->instance->setErrors($validations);
+					$this->instance->Listview();
+				}
+			}
+
+			if(!method_exists($this->instance, "Insert"))
+				throw new Exception("Não há inclusão difinida para a rotina: ". $className);
+
+			$id = $this->instance->Insert();
+
+			if(empty($id))
+				throw new Exception("Ocorreu algum erro ao inserir na rotina: ". $className);
+
+			if(method_exists($this->instance, "AfterInsert"))
+				$this->instance->AfterInsert();
+		}catch(Exception $e){
+			$this->instance->setErrors($e->getMessage());
+			$this->instance->Listview(); 
 		}
 	}
 }

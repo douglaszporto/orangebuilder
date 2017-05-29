@@ -1,5 +1,5 @@
 {
     "routines" : {
-        "products": "ProductCtrl"
+        "produtos": "ProductCtrl"
     }
 }

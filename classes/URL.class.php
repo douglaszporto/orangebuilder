@@ -19,6 +19,7 @@ class URL{
 	}
 
 	public function forward(){
+		$found = false;
 		foreach($this->map as $route=>$ctrl){
 			$params = array();
 
@@ -43,7 +44,14 @@ class URL{
 			}catch (Exception $e){
 				echo $e->getMessage();
 			}
+
+			$found = true;
 			break;
+		}
+
+		if(!$found){
+			$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+			$ctrl->NotFound();
 		}
 	}
 }

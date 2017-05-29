@@ -1,0 +1,301 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0;}
+
+body *{
+    font-family: 'Roboto Condensed';
+}
+
+a{
+    text-decoration: none;
+}
+
+br{
+    clear: both;
+}
+
+.hidden{
+    display: none !important;
+}
+
+/* MENU */
+
+    nav{
+        background-color: #333;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 250px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+        border-right: 1px solid #000;
+        z-index: 2;
+    }
+
+    nav #logo-wrapper{
+        margin-bottom: 10px;
+    }
+
+    nav img{
+        width: 210px;
+        height: 80px;
+        display: block;
+        margin: 10px 20px;
+    }
+
+    nav #menu li{
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        transition: all .4s ease 0s;
+    }
+
+    nav #menu li:hover,
+    nav #menu li.selected{
+        padding-left: 30px;
+        background-color: #111;
+        color: #fff;
+    }
+
+    nav #menu li a{
+        color: #aaa;
+        transition: all .4s ease 0s;
+    }
+    nav #menu li:hover a,
+    nav #menu li.selected a{
+        color: #fff;
+    }
+
+    nav #menu li a i.fa{
+        margin-right: 20px;
+        font-size: 18px;
+        transition: margin .4s ease 0s;
+    }
+
+
+
+
+/* CONTENT */
+    #content{
+        position: absolute;
+        left: 250px;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        overflow: auto;
+        box-sizing: border-box;
+    }
+
+    #title-header{
+        float:left;
+        height: 100px;
+        line-height: 100px;
+        width: 100%;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    #content h1{
+        font-size: 24px;
+        text-transform: uppercase;
+        height: 100px;
+        line-height: 100px;
+        padding: 0 50px;
+        float:left;
+    }
+
+    #input-filter{
+        width: 300px;
+        height: 50px;
+        box-sizing: border-box;
+        padding-left: 10px;
+        margin-top: 24px;
+        float: left;
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border: 1px solid #cacaca;
+        outline: none;
+        border-radius: 3px;
+    }
+
+    input[type="submit"].main,
+    button.main{
+        background-color: #ffc435;
+        border: 0;
+        border-radius: 3px;
+        color: #fff;
+        height: 50px;
+        font-size: 18px;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow: 0 0 0 transparent;
+        transition: all .4s ease 0s;
+    }
+    input[type="submit"].main:hover,
+    input[type="submit"].main:focus,
+    button.main:focus,
+    button.main:hover{
+        outline: none;
+        box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    }
+
+    #btn-filter{
+        width: 50px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    #btn-new{
+        padding: 0 20px;
+    }
+
+    #actions-wrapper{
+        float: right;
+        margin-right: 20px;
+    }
+
+    #datagrid-view{
+        width: 100%;
+        margin-top: 10px;
+        padding: 0 20px 0 50px;
+        box-sizing: border-box;
+    }
+
+    #datagrid-view table{
+        width: 100%;
+    }
+
+    #datagrid-view table td,
+    #datagrid-view table th{
+        height: 40px;
+        line-height: 40px;
+        padding: 0 5px;
+    }
+
+    #datagrid-view table th{
+        border-bottom: 1px solid #cacaca;
+        font-weight: bold;
+    }
+
+    #datagrid-view table tr:hover td{
+        background-color: #f0f0f0;
+    }
+
+    #datagrid-view table td.ar,
+    #datagrid-view table th.ar{
+        text-align: right;
+    }
+    #datagrid-view table td.al,
+    #datagrid-view table th.al{
+        text-align: left;
+    }
+    #datagrid-view table td.ac,
+    #datagrid-view table th.ac{
+        text-align: center;
+    }
+
+    #datagrid-view .datagrid-item-open{
+        color: #dfa415;
+    }
+
+
+
+
+/* FORM */
+    #background{
+        position: fixed;
+        top: 0;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        background-color: #000;
+        opacity: 0;
+        transition: opacity .4s ease 0s, bottom 0s linear .4s;
+        z-index: 99;
+    }
+    #background.active{
+        bottom: 0;
+        opacity: 0.5;
+        transition: opacity .4s ease 0s, bottom 0s linear 0s;
+    }
+
+    #form{
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 0;
+        border-left: 1px solid #ccc;
+        box-shadow: 0 0 0 transparent;
+        background-color: #fff;
+        transition:all .4s ease 0s;
+        z-index: 100;
+        opacity: 0;
+    }
+
+    #form.active{
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.4);
+        width: 500px;
+        opacity: 1;
+    }
+
+    #form h2{
+        line-height: 100px;
+        height: 100px;
+        padding-left: 20px;
+        font-size: 24px;
+        text-transform: uppercase;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    #form #form-buttons{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
+        height: 90px;
+        line-height: 50px;
+        overflow: hidden;
+    }
+
+    #form #form-buttons a,
+    #form #form-buttons input[type="submit"],
+    #form #form-buttons button{
+        float: right;
+        margin-left: 20px;
+    }
+    #form #form-buttons input[type="submit"],
+    #form #form-buttons button{
+        padding: 0 20px;
+    }
+
+    #form-content{
+        position: absolute;
+        top: 100px;
+        bottom: 90px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        left: 0;
+        right: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+    #form-content label{
+        margin-top: 20px;
+        display: block;
+    }
+
+    #form-content input{
+        height:40px;
+        box-sizing: border-box;
+        border: 1px solid #cacaca;
+        outline: none;
+        border-radius: 3px;
+        width: 100%;
+        padding: 0 5px;
+    }
