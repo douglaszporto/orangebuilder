@@ -2,7 +2,10 @@
 
 namespace OrangeBuild\Controllers;
 
-use \Exception as Exception;
+use \Exception     as Exception;
+use OrangeBuild\DB as DB;
+
+require_once dirname(__FILE__) . "/../admin/config.php";
 
 class AdminCtrl{
 
@@ -43,8 +46,11 @@ class AdminCtrl{
 	}
 
 	public function Add($ctrl){
+		$db = DB::getInstance();
+
 		try{
 			$this->getCtrlClass($ctrl);
+			$db->BeginTransaction();
 
 			if(method_exists($this->instance, "BeforeInsert")){
 				$validations = $this->instance->BeforeInsert();
@@ -64,7 +70,12 @@ class AdminCtrl{
 
 			if(method_exists($this->instance, "AfterInsert"))
 				$this->instance->AfterInsert();
+
+			$db->CommitTransaction();
+			$this->instance->setMessage("Parabéns, dados inseridos com sucesso!");
+			$this->instance->Listview(); 
 		}catch(Exception $e){
+			$db->RollbackTransaction();
 			$this->instance->setErrors($e->getMessage());
 			$this->instance->Listview(); 
 		}

@@ -39,7 +39,8 @@ class ProductCtrl extends Controller{
 
         View::RenderRequest("Products.tpl", array(
             'products' => $products,
-            'errors' => $this->errors
+            'errors' => $this->errors,
+            'success' => $this->success
         ));
     }
 

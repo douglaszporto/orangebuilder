@@ -153,13 +153,41 @@ br{
         margin-right: 20px;
     }
 
+    #success-container,
     #error-container{
         padding: 20px;
+        width: calc(100% - 70px);
+        box-sizing: border-box;
+        color: #333;
+        margin: 20px 20px 20px 50px;
+        display: table;
+    }
+    #success-container{
+        border: 1px solid #6a3;
+        background-color: #9f3;
+    }
+    #error-container{
         border: 1px solid #f66;
         background-color: #f99;
-        width: 100%;
-        box-sizing: border-box;
-        color: #000;
+    }
+    #success-icon,
+    #error-icon{
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 25px;
+        width: 45px;
+    }
+    #success-icon{
+        color: #6a3;
+    }
+    #error-icon{
+        color: #f66;
+    }
+    #success-description,
+    #error-description{
+        display: table-cell;
+        width: calc(100% - 55px);
+        vertical-align: middle;
     }
 
     #datagrid-view{

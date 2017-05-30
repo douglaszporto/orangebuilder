@@ -25,6 +25,10 @@ abstract class Controller{
     public function setErrors($error){
         $this->errors = is_string($error) ? array($error) : $error;
     }
+
+    public function setMessage($msg){
+        $this->success = $msg;
+    }
 }
 
 

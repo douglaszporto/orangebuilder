@@ -10,11 +10,20 @@
     </div>
 </div>
 <br />
+{{if strlen($success) > 0}}
+    <div id="success-container">
+        <div id="success-icon"><i class="fa fa-check-circle"></i></div>
+        <div id="success-description">{{$success}}</div>
+    </div>
+{{/if}}
 {{if count($errors) > 0}}
     <div id="error-container">
-    {{foreach $errors as $error}}
-    {{$error}}<br/>
-    {{/foreach}}
+        <div id="error-icon"><i class="fa fa-times-circle"></i></div>
+        <div id="error-description">
+            {{foreach $errors as $error}}
+                {{$error}}<br/>
+            {{/foreach}}
+        </div>
     </div>
 {{/if}}
 <div id="datagrid-view">
