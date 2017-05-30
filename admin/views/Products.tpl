@@ -10,9 +10,13 @@
     </div>
 </div>
 <br />
-{{foreach $errors as $error}}
-{{$error}}<br/>
-{{/foreach}}
+{{if count($errors) > 0}}
+    <div id="error-container">
+    {{foreach $errors as $error}}
+    {{$error}}<br/>
+    {{/foreach}}
+    </div>
+{{/if}}
 <div id="datagrid-view">
     <table>
         <thead>
