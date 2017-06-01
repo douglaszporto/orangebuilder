@@ -10,6 +10,10 @@ class ErrorHandlerCtrl{
 	public function NotFound(){
 		View::RenderRequest("404.tpl");
 	}
+
+	public function ErrorHandler($msg){
+		echo $msg;
+	}
 }
 
 ?>

@@ -12,6 +12,9 @@ class URL{
 	public function __construct($url){
 		$this->url = preg_replace('~[^a-zA-Z0-9\-\/\\\\]~i', "", $url);
 		$this->url = trim($this->url, "\\\/ \t\n\r\0\x0B");
+
+		ini_set('display_errors', false);
+		register_shutdown_function([$this, 'fatal_handler']);
 	}
 
 	public function mapping($route, $method){
@@ -54,7 +57,19 @@ class URL{
 			$ctrl->NotFound();
 		}
 	}
+
+
+	public function fatal_handler(){
+		$error = error_get_last();
+
+		if($error !== NULL && $error['type'] === E_ERROR) {
+			$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+			$ctrl->ErrorHandler(sprintf("Erro %s no arquivo %s (%s)<br/>%s", $error["type"], $error["file"], $error["line"], $error["message"]));
+			exit;
+		}
+	}
 }
 
+function fakeHandler() {}
 
 ?>
