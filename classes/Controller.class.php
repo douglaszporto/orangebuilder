@@ -13,13 +13,13 @@ abstract class Controller{
 
     public function Listview(){}
     public function AddForm(){}
-    public function EditForm(){}
+    public function EditForm($id){}
     public function BeforeInsert(){}
     public function Insert(){}
     public function AfterInsert(){}
-    public function BeforeUpdate(){}
-    public function Update(){}
-    public function AfterUpdate(){}
+    public function BeforeUpdate($id){}
+    public function Update($id){}
+    public function AfterUpdate($id){}
     public function BeforeDelete(){}
     public function Delete(){}
     public function AfterDelete(){}

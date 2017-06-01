@@ -28,7 +28,8 @@ class AdminCtrl{
 			$this->instance = new $className();
 
 		}catch(Exception $e){
-			echo $e->getMessage();
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
 		}
 	}
 
@@ -41,7 +42,8 @@ class AdminCtrl{
 
 			$this->instance->Listview();
 		}catch(Exception $e){
-			echo $e->getMessage();
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
 		}
 	}
 
@@ -54,7 +56,22 @@ class AdminCtrl{
 
 			$this->instance->AddForm();
 		}catch(Exception $e){
-			echo $e->getMessage();
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
+		}
+	}
+
+	public function FormEdit($ctrl, $id){
+		try{
+			$this->getCtrlClass($ctrl);
+
+			if(!method_exists($this->instance, "EditForm"))
+				throw new Exception("Não há formulario de edição difinido para a rotina: ". $ctrl);
+
+			$this->instance->EditForm($id);
+		}catch(Exception $e){
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
 		}
 	}
 
@@ -75,18 +92,55 @@ class AdminCtrl{
 			}
 
 			if(!method_exists($this->instance, "Insert"))
-				throw new Exception("Não há inclusão difinida para a rotina: ". $className);
+				throw new Exception("Não há inclusão difinida para a rotina: ". $ctrl);
 
 			$id = $this->instance->Insert();
 
 			if(empty($id))
-				throw new Exception("Ocorreu algum erro ao inserir na rotina: ". $className);
+				throw new Exception("Ocorreu algum erro ao inserir na rotina: ". $ctrl);
 
 			if(method_exists($this->instance, "AfterInsert"))
 				$this->instance->AfterInsert();
 
 			$db->CommitTransaction();
 			$this->instance->setMessage("Parabéns, dados inseridos com sucesso!");
+			$this->instance->Listview(); 
+		}catch(Exception $e){
+			$db->RollbackTransaction();
+			$this->instance->setErrors($e->getMessage());
+			$this->instance->Listview(); 
+		}
+	}
+
+	public function Edit($ctrl, $id){
+		$db = DB::getInstance();
+
+		try{
+			$this->getCtrlClass($ctrl);
+			$db->BeginTransaction();
+
+			if(method_exists($this->instance, "BeforeUpdate")){
+				$validations = $this->instance->BeforeUpdate($id);
+				if(is_array($validations) || is_string($validations)){
+					$this->instance->setErrors($validations);
+					$this->instance->Listview();
+					return;
+				}
+			}
+
+			if(!method_exists($this->instance, "Update"))
+				throw new Exception("Não há alteração difinida para a rotina: ". $ctrl);
+
+			$id = $this->instance->Update($id);
+
+			if(empty($id))
+				throw new Exception("Ocorreu algum erro ao alterar o registro ".$id." na rotina: ". $ctrl);
+
+			if(method_exists($this->instance, "AfterUpdate"))
+				$this->instance->AfterUpdate($id);
+
+			$db->CommitTransaction();
+			$this->instance->setMessage("Parabéns, dados alterados com sucesso!");
 			$this->instance->Listview(); 
 		}catch(Exception $e){
 			$db->RollbackTransaction();

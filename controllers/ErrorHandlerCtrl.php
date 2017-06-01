@@ -12,7 +12,9 @@ class ErrorHandlerCtrl{
 	}
 
 	public function ErrorHandler($msg){
-		echo $msg;
+		View::RenderRequest("Error.tpl", array(
+			'error' => $msg
+		));
 		exit;
 	}
 }

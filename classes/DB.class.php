@@ -354,9 +354,9 @@ class DB{
 
 		$query = "SELECT {$fieldVal} as 'val', {$fieldDesc} as 'desc' FROM {$table}";
 		if($where !== "")
-			$query .= "WHERE {$where}";
+			$query .= " WHERE {$where}";
 		if($order !== "")
-			$query .= "ORDER BY {$order}";
+			$query .= " ORDER BY {$order}";
 
 		$db->Query($query);
 		while($row = $db->Fetch("object"))

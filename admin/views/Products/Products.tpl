@@ -6,7 +6,7 @@
     <button id="btn-filter" class="main"><i class="fa fa-search"></i></button>
 
     <div id="actions-wrapper">
-        <button id="btn-new" class="main" data-href="{{$domain}}/admin/form/produtos">Adicionar</div>
+        <button id="btn-new" class="main" data-href="{{$domain}}/admin/formulario/produtos">Adicionar</div>
     </div>
 </div>
 <br />
@@ -39,7 +39,7 @@
         <tbody>
             {{foreach $products as $product}}
             <tr>
-                <td class="al"><a href="#" class="datagrid-item-open">{{$product["name"]}}</a></td>
+                <td class="al"><a href="{{$domain}}/admin/editar/produtos/{{$product['id']}}" class="datagrid-item-open">{{$product["name"]}}</a></td>
                 <td class="al">{{$product["category"]}}</td>
                 <td class="ar">{{$product["price"]}}</td>
                 <td class="ar">{{$product["stock"]}}</td>

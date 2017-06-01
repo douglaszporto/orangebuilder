@@ -28,7 +28,7 @@ class URL{
 		foreach($this->map as $route=>$ctrl){
 			$params = array();
 
-			if(preg_match_all("~".$route."~i", $this->url, $params) !== 1)
+			if(preg_match_all("~".$route."~i", $this->url, $params, PREG_SET_ORDER) !== 1)
 				continue;
 
 			try{
@@ -45,7 +45,10 @@ class URL{
 				if(!method_exists($instance, $method))
 					throw new Exception("Methodo da classe mapeada não encontrado: ".$class.".".$method);
 
-				call_user_func_array(array($instance, $method), $params[1]);
+				$parameters = $params[0];
+				array_shift($parameters);
+
+				call_user_func_array(array($instance, $method), $parameters);
 			}catch (Exception $e){
 				echo $e->getMessage();
 			}
@@ -65,17 +68,14 @@ class URL{
 		$error = error_get_last();
 
 		if($error !== NULL) {
-			require_once dirname(__FILE__) . '/../controllers/ErrorHandlerCtrl.php';
-			$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+			$ctrl = new Controllers\ErrorHandlerCtrl();
 			$ctrl->ErrorHandler(sprintf("Erro %s no arquivo %s (%s)<br/>%s", $error["type"], $error["file"], $error["line"], $error["message"]));
 			exit;
 		}
 	}
 
 	public function error_handler($errno, $errstr, $errfile, $errline){
-
-		require_once dirname(__FILE__) . '/../controllers/ErrorHandlerCtrl.php';
-		$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+		$ctrl = new Controllers\ErrorHandlerCtrl();
 		$ctrl->ErrorHandler(sprintf("Erro %s no arquivo %s (%s)<br/>%s", $errno, $errfile, $errline, $errstr));
 		exit;
 	}

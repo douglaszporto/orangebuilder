@@ -21,6 +21,9 @@
                 opt.attr("data-value", $(this).attr("val"));
                 opt.addClass("input-select-option");
 
+                if(self.attr('selected') == 'selected')
+                    filter.val($(this).html());
+
                 opt.click(function(){
                     
                     select.find("option[selected]").removeAttr("selected");

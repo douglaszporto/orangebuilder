@@ -10,16 +10,9 @@
         <label for="input-category">Categoria</label>
         <select name="data-category" id="data-category" style="width:460px;" data-input-select>
             <option value="">&nbsp;</option>
-            <option value="1">Categoria 1</option>
-            <option value="2">Categoria 2</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
-            <option value="3">Categoria 3</option>
+            {{foreach $categories as $key => $category}}
+            <option value="{{$key}}">{{$category}}</option>
+            {{/foreach}}
         </select>
 
         <label for="input-price">Preço</label>
