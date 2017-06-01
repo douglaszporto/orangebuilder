@@ -13,8 +13,9 @@ class URL{
 		$this->url = preg_replace('~[^a-zA-Z0-9\-\/\\\\]~i', "", $url);
 		$this->url = trim($this->url, "\\\/ \t\n\r\0\x0B");
 
-		ini_set('display_errors', false);
-		register_shutdown_function([$this, 'fatal_handler']);
+		//ini_set('display_errors', false);
+		//register_shutdown_function([$this, 'fatal_handler']);
+		set_error_handler([$this, 'error_handler']);
 	}
 
 	public function mapping($route, $method){
@@ -62,14 +63,21 @@ class URL{
 	public function fatal_handler(){
 		$error = error_get_last();
 
-		if($error !== NULL && $error['type'] === E_ERROR) {
+		if($error !== NULL) {
+			require_once dirname(__FILE__) . '/../controllers/ErrorHandlerCtrl.php';
 			$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
 			$ctrl->ErrorHandler(sprintf("Erro %s no arquivo %s (%s)<br/>%s", $error["type"], $error["file"], $error["line"], $error["message"]));
 			exit;
 		}
 	}
-}
 
-function fakeHandler() {}
+	public function error_handler($errno, $errstr, $errfile, $errline){
+
+		require_once dirname(__FILE__) . '/../controllers/ErrorHandlerCtrl.php';
+		$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+		$ctrl->ErrorHandler(sprintf("Erro %s no arquivo %s (%s)<br/>%s", $errno, $errfile, $errline, $errstr));
+		exit;
+	}
+}
 
 ?>

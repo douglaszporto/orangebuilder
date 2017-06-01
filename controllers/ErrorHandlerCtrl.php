@@ -13,6 +13,7 @@ class ErrorHandlerCtrl{
 
 	public function ErrorHandler($msg){
 		echo $msg;
+		exit;
 	}
 }
 

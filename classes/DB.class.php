@@ -49,6 +49,13 @@ class DB{
 						throw new Exception("Não foi possível conectar ao banco de dados");
 					break;
 
+				case 'sqlite_pdo':
+					$this->connection = new \PDO('sqlite:'.DB_FILE);
+					var_dump($this->connection);
+					if(!$this->connection)
+						throw new Exception("Não foi possível conectar ao banco de dados");
+					break;
+
 				default:
 					throw new Exception("Nenhum DBMS definido...");
 					break;
@@ -60,7 +67,7 @@ class DB{
 	}
 
 
-	public static function getInstance() {	
+	public static function getInstance() {
 		if (self::$instance == NULL)
 			self::$instance = new DB();
 		return self::$instance;
@@ -79,6 +86,7 @@ class DB{
 			case 'postgres':
 				return pg_free_result($this->result);
 			case 'mysql_pdo':
+			case 'sqlite_pdo':
 				return $this->result->closeCursor();
 		}
 	}
@@ -93,6 +101,7 @@ class DB{
 				return '"'.str_replace("'","''",$val).'"'; 
 			case 'postgres':
 			case 'mysql_pdo':
+			case 'sqlite_pdo':
                 if(is_null($val))
                     return "NULL";
 				return "'".addslashes($val)."'"; 
@@ -114,6 +123,7 @@ class DB{
 				$result = $this->Fetch();
 				return isset($result["INSERTED_ID"]) ? $result["INSERTED_ID"] : false;
 			case 'mysql_pdo':
+			case 'sqlite_pdo':
 				return $this->connection->lastInsertId();
 		}
 
@@ -134,6 +144,7 @@ class DB{
 					$this->result = pg_query($this->connection,$sql);
 					break;
 				case 'mysql_pdo':
+				case 'sqlite_pdo':
 					$this->result = $this->connection->query($sql);
 					break;
 			}
@@ -146,6 +157,7 @@ class DB{
 								$error .= "[".$e[ 'message']."]";
                         break;
                     case 'mysql_pdo':
+                    case 'sqlite_pdo':
                         $error = implode(",", $this->connection->errorInfo());
                         break;
 				}
@@ -271,6 +283,7 @@ class DB{
 			case 'mysql':
 				return mysql_num_rows($this->result);
 			case 'mysql_pdo':
+			case 'sqlite_pdo':
 				return -1;
 		}
 	}
@@ -320,6 +333,7 @@ class DB{
 				break;
 
 			case 'mysql_pdo':
+			case 'sqlite_pdo':
 				if($type == "object")
 					$result = $this->result->fetch(\PDO::FETCH_OBJ);
 				else if($type == "assoc")
@@ -367,6 +381,9 @@ class DB{
 			case 'mysql_pdo':
 				$this->connection->beginTransaction();
 				break;
+			case 'sqlite_pdo':
+				return;
+				break;
 		}
 	}
 
@@ -384,6 +401,9 @@ class DB{
 				break;
 			case 'mysql_pdo':
 				$this->connection->commit();
+				break;
+			case 'sqlite_pdo':
+				return;
 				break;
 		}
 	}
@@ -405,6 +425,9 @@ class DB{
 				break;
 			case 'mysql_pdo':
 				$this->connection->rollBack();
+				break;
+			case 'sqlite_pdo':
+				return;
 				break;
 		}
 	}
