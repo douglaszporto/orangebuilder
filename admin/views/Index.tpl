@@ -12,7 +12,7 @@
     <link href="{{$domain}}/statics/css/form-components.css" type="text/css" rel="stylesheet">
     <link href="{{$domain}}/statics/css/admin.css" type="text/css" rel="stylesheet">
 </head>
-<body>
+<body class="preload">
     <nav>
         <div id="logo-wrapper">
             <img src="{{$domain}}/statics/img/admin/logo.png" alt="{{$smarty.const.SHOP_NAME}} logo" />
@@ -29,14 +29,12 @@
     <section id="content">
         {{block name="content"}}{{/block}}
     </section>
-    <section>
-        {{block name="form"}}{{/block}}
-    </section>
 
     <script type="text/javascript">var $domain = "{{$domain}}";</script>
     <script type="text/javascript" src="{{$domain}}/statics/js/jquery.min.js"></script>
     <script type="text/javascript" src="{{$domain}}/statics/js/nanoscroller.min.js"></script>
     <script type="text/javascript" src="{{$domain}}/statics/js/form-components.js"></script>
-    <script type="text/javascript" src="{{$domain}}/statics/js/admin.js"></script>
+    <script type="text/javascript" src="{{$domain}}/statics/js/admin.js" async></script>
+    <script> </script>
 </body>
 </html>

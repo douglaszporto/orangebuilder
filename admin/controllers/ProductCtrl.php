@@ -37,11 +37,15 @@ class ProductCtrl extends Controller{
             $products[] = $result;
         }
 
-        View::RenderRequest("Products.tpl", array(
+        View::RenderRequest("Products/Products.tpl", array(
             'products' => $products,
             'errors' => $this->errors,
             'success' => $this->success
         ));
+    }
+
+    public function AddForm(){
+        View::RenderRequest("Products/ProductsAddForm.tpl");
     }
 
     public function BeforeInsert(){

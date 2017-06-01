@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $("body").removeClass("preload");
+
     var checkMenuSelected = function(){
         var url = window.location.href;
 
@@ -23,29 +25,9 @@ $(document).ready(function(){
 
 
     var datagridEvents = function(){
-        $(".datagrid-item-open").click(function(){
-            $("#form").addClass("active");
-            $("#background").addClass("active");
-
-            $(".form-new-item").addClass("hidden");
-            $(".form-edit-item").removeClass("hidden");
-        });
-
         $("#btn-new").click(function(){
-            $("#form").addClass("active");
-            $("#background").addClass("active");
-
-            $(".form-new-item").removeClass("hidden");
-            $(".form-edit-item").addClass("hidden");
+            window.location = $(this).attr('data-href');
         });
-
-        $("#form-close").click(function(e){
-            e.stopPropagation();
-            e.preventDefault();
-
-            $("#form").removeClass("active");
-            $("#background").removeClass("active");
-        })
     }
 
 

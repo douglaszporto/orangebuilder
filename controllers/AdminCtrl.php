@@ -45,6 +45,19 @@ class AdminCtrl{
 		}
 	}
 
+	public function FormAdd($ctrl){
+		try{
+			$this->getCtrlClass($ctrl);
+
+			if(!method_exists($this->instance, "AddForm"))
+				throw new Exception("Não há formulario de inclusão difinido para a rotina: ". $className);
+
+			$this->instance->AddForm();
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
 	public function Add($ctrl){
 		$db = DB::getInstance();
 

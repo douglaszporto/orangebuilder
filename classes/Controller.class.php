@@ -11,6 +11,8 @@ abstract class Controller{
     protected $warning;
 
     public function Listview(){}
+    public function AddForm(){}
+    public function EditForm(){}
     public function BeforeInsert(){}
     public function Insert(){}
     public function AfterInsert(){}
