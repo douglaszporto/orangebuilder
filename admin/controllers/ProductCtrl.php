@@ -37,15 +37,13 @@ class ProductCtrl extends Controller{
             $products[] = $result;
         }
 
-        View::RenderRequest("Products/Products.tpl", array(
-            'products' => $products,
-            'errors' => $this->errors,
-            'success' => $this->success
-        ));
+        View::RenderRequest("Products/Products.tpl", $this->mergeContext(array(
+            'products' => $products
+        )));
     }
 
     public function AddForm(){
-        View::RenderRequest("Products/ProductsAddForm.tpl");
+        View::RenderRequest("Products/ProductsAddForm.tpl", $this->mergeContext(array()));
     }
 
     public function BeforeInsert(){
@@ -62,13 +60,21 @@ class ProductCtrl extends Controller{
 
         if(count($errors) > 0)
             return $errors;
+
+        $this->data["name"]        = $_POST["data-name"];
+        $this->data["category_id"] = $_POST["data-category"];
+        $this->data["price"]       = $_POST["data-price"];
+        $this->data["stock"]       = $_POST["data-stock"];
+        $this->data["shop_id"]     = 2;
         
         return true;
     }
 
     public function Insert(){
         $db = DB::getInstance();
-        return true;
+        $success = $db->QueryInsert('products', $this->data);
+
+        return !$success ? false : $db->InsertedId();
     }
 
     public function AfterInsert(){

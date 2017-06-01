@@ -5,6 +5,7 @@ namespace OrangeBuild;
 abstract class Controller{
 
     protected $route;
+    protected $data;
 
     protected $errors;
     protected $success;
@@ -30,6 +31,15 @@ abstract class Controller{
 
     public function setMessage($msg){
         $this->success = $msg;
+    }
+
+    public function mergeContext(array $context){
+        $defaultContext = array(
+            'errors' => $this->errors,
+            'success' => $this->success
+        );
+
+        return array_merge($defaultContext, $context);
     }
 }
 

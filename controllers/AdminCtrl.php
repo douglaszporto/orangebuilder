@@ -70,6 +70,7 @@ class AdminCtrl{
 				if(is_array($validations) || is_string($validations)){
 					$this->instance->setErrors($validations);
 					$this->instance->Listview();
+					return;
 				}
 			}
 

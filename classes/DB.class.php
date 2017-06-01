@@ -51,7 +51,6 @@ class DB{
 
 				case 'sqlite_pdo':
 					$this->connection = new \PDO('sqlite:'.DB_FILE);
-					var_dump($this->connection);
 					if(!$this->connection)
 						throw new Exception("Não foi possível conectar ao banco de dados");
 					break;

@@ -2,6 +2,7 @@
 
 namespace OrangeBuild;
 
+use \OrangeBuild\Controllers\ErrorHandlerCtrl as ErrorHandlerCtrl;
 use \Exception as Exception;
 
 class URL{
@@ -54,7 +55,7 @@ class URL{
 		}
 
 		if(!$found){
-			$ctrl = new \OrangeBuild\Controllers\ErrorHandlerCtrl();
+			$ctrl = new ErrorHandlerCtrl();
 			$ctrl->NotFound();
 		}
 	}
