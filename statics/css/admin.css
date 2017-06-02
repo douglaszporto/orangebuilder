@@ -213,7 +213,6 @@ br{
 
     #datagrid-view table td,
     #datagrid-view table th{
-        height: 40px;
         line-height: 40px;
         padding: 0 5px;
     }

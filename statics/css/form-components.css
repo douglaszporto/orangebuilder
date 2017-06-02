@@ -57,6 +57,88 @@
 		background-color: #e0e0e0;
 	}
 
+/* CHECKBOX COMPONENT */
+	.input-checkbox-wrapper {
+		font-size: 18px;
+		position: relative;
+		display: block;
+		margin-bottom: 15px;
+		padding-left: 30px;
+		cursor: pointer;
+		width: 15px;
+		height: 15px;
+		margin: 0 auto;
+	}
+
+	.input-checkbox-wrapper input {
+		position: absolute;
+		z-index: -1;
+		opacity: 0;
+	}
+
+	.input-checkbox-indicator {
+		position: absolute;
+		top: 2px;
+		left: 0;
+		width: 15px;
+		height: 15px;
+		background: #e6e6e6;
+		border: 1px solid #aaa;
+	}
+
+	/* Hover and focus states */
+	.input-checkbox-wrapper:hover input ~ .input-checkbox-indicator,
+	.input-checkbox-wrapper input:focus ~ .input-checkbox-indicator {
+		background: #ccc;
+	}
+
+	/* Checked state */
+	.input-checkbox-wrapper input:checked ~ .input-checkbox-indicator {
+		background: #ffc435;
+		border-color: #ef9405;
+	}
+
+	/* Hover state whilst checked */
+	.input-checkbox-wrapper:hover input:not([disabled]):checked ~ .input-checkbox-indicator,
+	.input-checkbox-wrapper input:checked:focus ~ .input-checkbox-indicator {
+		background: #dfa415;
+	}
+
+	/* Disabled state */
+	.input-checkbox-wrapper input:disabled ~ .input-checkbox-indicator {
+		pointer-events: none;
+		opacity: .6;
+		background: #e6e6e6;
+	}
+
+	/* Check mark */
+	.input-checkbox-indicator:after {
+		position: absolute;
+		display: none;
+		content: '';
+	}
+
+	/* Show check mark */
+	.input-checkbox-wrapper input:checked ~ .input-checkbox-indicator:after {
+		display: block;
+	}
+
+	/* Checkbox tick */
+	.input-checkbox-wrapper .input-checkbox-indicator:after {
+		top: 2px;
+		left: 5px;
+		width: 3px;
+		height: 7px;
+		transform: rotate(45deg);
+		border: solid #fff;
+		border-width: 0 2px 2px 0;
+	}
+
+	/* Disabled tick colour */
+	.input-checkbox-wrapper input:disabled ~ .input-checkbox-indicator:after {
+		border-color: #7b7b7b;
+	}
+
 /* NANO SCROLLER */
 .nano { background: #bba; }
 .nano .nano-content { padding: 0px; }

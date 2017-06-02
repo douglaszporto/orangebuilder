@@ -16,6 +16,7 @@ $(document).ready(function(){
 
     var formFilterEvents = function(){
         $("[data-input-select]").inputSelectComponent();
+        $("[data-input-checkbox]").inputCheckboxComponent();
 
         $("#form-button-add, #form-button-edit").click(function(){
             $("#form form").submit();
@@ -28,6 +29,14 @@ $(document).ready(function(){
         $("#btn-new").click(function(){
             window.location = $(this).attr('data-href');
         });
+
+        $("#datagrid-select-all").on('change', function(){
+            var isSelected = $(this).prop("checked");
+
+            $(".datagrid-selected-items").each(function(){
+                $(this).prop("checked", isSelected);
+            });
+        })
     }
 
 

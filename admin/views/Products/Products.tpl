@@ -30,8 +30,9 @@
     <table>
         <thead>
             <tr>
-                <th class="al" style="width:35%">Nome <i class="fa fa-sort-up"></i></th>
-                <th class="al" style="width:35%">Categoria</th>
+                <th class="ac" style="width:10%"><input type="checkbox" id="datagrid-select-all" name="datagrid-select-all" data-input-checkbox/></th>
+                <th class="al" style="width:30%">Nome <i class="fa fa-sort-up"></i></th>
+                <th class="al" style="width:30%">Categoria</th>
                 <th class="ar" style="width:15%">Preço (R$)</th>
                 <th class="ar" style="width:15%">Em estoque</th>
             </tr>
@@ -39,6 +40,7 @@
         <tbody>
             {{foreach $products as $product}}
             <tr>
+                <td class="ac"><input type="checkbox" id="datagrid-selected-item-{{$product['id']}}" class="datagrid-selected-items" name="datagrid-selected-items" value="{{$product['id']}}" data-input-checkbox/></td>
                 <td class="al"><a href="{{$domain}}/admin/editar/produtos/{{$product['id']}}" class="datagrid-item-open">{{$product["name"]}}</a></td>
                 <td class="al">{{$product["category"]}}</td>
                 <td class="ar">{{$product["price"]}}</td>

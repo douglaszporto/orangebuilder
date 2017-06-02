@@ -99,4 +99,31 @@
 
         return this;
     };
+
+    $.fn.inputCheckboxComponent = function() {
+        this.each(function() {
+            var checkbox  = $(this);
+            var wrapper   = $("<div/>");
+            var indicator = $("<div/>");
+
+            wrapper.addClass("input-checkbox-wrapper");
+            indicator.addClass("input-checkbox-indicator");
+            checkbox.addClass("input-checkbox-checkbox");
+
+            indicator.click(function(){
+                var checkbox = $(this).parent().find("input");
+                checkbox.prop('checked', !checkbox.prop('checked'));
+                checkbox.trigger('change');
+            });
+
+            wrapper.append(checkbox.clone());
+            wrapper.append(indicator);
+
+            checkbox.after(wrapper);
+            checkbox.remove();
+
+        });
+
+        return this;
+    };
 }(jQuery));
