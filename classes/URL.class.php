@@ -41,7 +41,7 @@ class URL{
 				require_once $filename;
 				$fullClassName = "\\OrangeBuild\\Controllers\\". $class;
 				$instance = new $fullClassName();
-				
+
 				if(!method_exists($instance, $method))
 					throw new Exception("Methodo da classe mapeada não encontrado: ".$class.".".$method);
 

@@ -3,8 +3,9 @@
 use OrangeBuild\View       as View;
 use OrangeBuild\Controller as Controller;
 use OrangeBuild\DB         as DB;
+use OrangeBuild\Env as Env;
 
-require_once dirname(__FILE__) . "/../config.php";
+Env::loadConfigShop();
 
 class ProductCtrl extends Controller{
 
@@ -14,6 +15,7 @@ class ProductCtrl extends Controller{
 
     public function Listview(){
         $db = DB::getInstance();
+
         $db->Query("
             SELECT 
                 products.id     as id, 
@@ -28,7 +30,7 @@ class ProductCtrl extends Controller{
                 ON
                     categories.id = products.category_id
             WHERE 
-                products.shop_id = '2'
+                products.shop_id = '".SHOP_ID."'
         ");
 
         $products = array();

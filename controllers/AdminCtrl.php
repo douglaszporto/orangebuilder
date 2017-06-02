@@ -2,10 +2,11 @@
 
 namespace OrangeBuild\Controllers;
 
-use \Exception     as Exception;
-use OrangeBuild\DB as DB;
+use \Exception      as Exception;
+use OrangeBuild\DB  as DB;
+use OrangeBuild\Env as Env;
 
-require_once dirname(__FILE__) . "/../admin/config.php";
+Env::loadConfigShop();
 
 class AdminCtrl{
 
@@ -22,7 +23,7 @@ class AdminCtrl{
 
 			if($className === "" || !file_exists($filename))
 				throw new Exception("Arquivo não encontrado para admin: ". $filename);
-			
+
 			require_once $filename;
 
 			$this->instance = new $className();

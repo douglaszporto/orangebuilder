@@ -84,7 +84,9 @@ INSERT INTO `products` (`id`, `shop_id`, `name`, `description`, `category_id`, `
 
 CREATE TABLE `shops` (
   `id` int(11) NOT NULL,
-  `name` varchar(64) NOT NULL
+  `name` varchar(64) NOT NULL,
+  `internalname` varchar(64) NOT NULL,
+  UNIQUE(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -92,9 +94,9 @@ CREATE TABLE `shops` (
 --
 
 INSERT INTO `shops` (`id`, `name`) VALUES
-(1, 'Goblin Vermelho'),
-(2, 'Play Games'),
-(3, 'Sapatoshop');
+(1, 'Goblin Vermelho','goblin'),
+(2, 'Play Games','playgames'),
+(3, 'Sapatoshop','sapatoshop');
 
 --
 -- Indexes for dumped tables

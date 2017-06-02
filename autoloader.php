@@ -1,7 +1,7 @@
 <?php
 
 spl_autoload_register(
-	function ($className) { 
+	function ($className) {
 		if(preg_match("~^OrangeBuild~i", $className) !== 1)
 			return false;
 
