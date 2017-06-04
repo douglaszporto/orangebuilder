@@ -20,9 +20,9 @@ abstract class Controller{
     public function BeforeUpdate($id){}
     public function Update($id){}
     public function AfterUpdate($id){}
-    public function BeforeDelete(){}
-    public function Delete(){}
-    public function AfterDelete(){}
+    public function BeforeDelete($ids){}
+    public function Delete($ids){}
+    public function AfterDelete($ids){}
 
 
     public function setErrors($error){

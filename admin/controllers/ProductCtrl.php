@@ -91,7 +91,8 @@ class ProductCtrl extends Controller{
         $this->data["category_id"] = $_POST["data-category"];
         $this->data["price"]       = $_POST["data-price"];
         $this->data["stock"]       = $_POST["data-stock"];
-        $this->data["shop_id"]     = 2;
+        $this->data["description"] = "";
+        $this->data["shop_id"]     = SHOP_ID;
         
         return true;
     }
@@ -112,7 +113,8 @@ class ProductCtrl extends Controller{
         $this->data["category_id"] = $_POST["data-category"];
         $this->data["price"]       = $_POST["data-price"];
         $this->data["stock"]       = $_POST["data-stock"];
-        $this->data["shop_id"]     = 2;
+        $this->data["description"] = "";
+        $this->data["shop_id"]     = SHOP_ID;
         
         return true;
     }
@@ -122,6 +124,14 @@ class ProductCtrl extends Controller{
         $success = $db->QueryUpdate('products', $this->data, "id = '".((int)$id)."'");
 
         return !$success ? false : $id;
+    }
+
+
+    public function Delete($ids){
+        $db = DB::getInstance();
+        $success = $db->QueryDelete('products', "id IN (".implode(',', $ids).") AND shop_id = '".SHOP_ID."'");
+
+        return $success !== false;
     }
 
 

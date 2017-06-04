@@ -149,6 +149,54 @@ class AdminCtrl{
 			$this->instance->Listview(); 
 		}
 	}
+
+	public function Delete($ctrl){
+		$db = DB::getInstance();
+		
+		try{
+
+			if(!isset($_POST["datagrid-selected-items"]))
+				throw new Exception("Não há items selecionados para remoção");
+			
+			$ids = array_values($_POST["datagrid-selected-items"]);
+			if(empty($ids))
+				throw new Exception("Não há items selecionados para remoção");
+			
+			$ids = array_map(function($item){
+				return DB::Clean($item);
+			}, $ids);
+
+			$this->getCtrlClass($ctrl);
+			$db->BeginTransaction();
+
+			if(method_exists($this->instance, "BeforeDelete")){
+				$validations = $this->instance->BeforeDelete($ids);
+				if(is_array($validations) || is_string($validations)){
+					$this->instance->setErrors($validations);
+					$this->instance->Listview();
+					return;
+				}
+			}
+
+			if(!method_exists($this->instance, "Delete"))
+				throw new Exception("Não há remoção difinida para a rotina: ". $ctrl);
+
+			$result = $this->instance->Delete($ids);
+
+			if($result !== true)
+				throw new Exception("Ocorreu algum erro ao remover os registros na rotina: ". $ctrl);
+
+			if(method_exists($this->instance, "AfterDelete"))
+				$this->instance->AfterDelete($ids);
+
+			$db->CommitTransaction();
+			$this->instance->setMessage("Parabéns, dados removidos com sucesso!");
+			$this->instance->Listview(); 
+		}catch(Exception $e){
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
+		}
+	}
 }
 
 ?>

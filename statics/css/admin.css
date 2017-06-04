@@ -123,9 +123,8 @@ br{
         outline: none;
     }
 
-    input[type="submit"].main,
-    button.main{
-        background-color: #ffc435;
+    input[type="submit"],
+    button{
         border: 0;
         border-radius: 3px;
         color: #fff;
@@ -136,12 +135,21 @@ br{
         box-shadow: 0 0 0 transparent;
         transition: all .4s ease 0s;
     }
-    input[type="submit"].main:hover,
-    input[type="submit"].main:focus,
-    button.main:focus,
-    button.main:hover{
+    input[type="submit"].main,
+    button.main{
+        background-color: #ffc435;
+    }
+    input[type="submit"]:hover,
+    input[type="submit"]:focus,
+    button:focus,
+    button:hover{
         outline: none;
         box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    }
+
+    button[disabled]{
+        opacity: 0.3;
+        cursor: default;
     }
 
     #btn-filter{
@@ -158,9 +166,73 @@ br{
         box-sizing: border-box;
     }
 
+    #btn-delete{
+        width: 100%;
+        margin-bottom: 10px;
+        display: block;
+        border: #f33;
+        background-color: #f55;
+    }
+
+    #actions-extra-wrapper{
+        position: relative;
+        float: left;
+        margin-right: 5px;
+    }
+
+    #btn-extra{
+        border: 1px solid #cacaca;
+        background-color: #f0f0f0;
+        color: #aaa;
+        height: 50px;
+        box-sizing: border-box;
+        width: 50px;
+        font-size: 18px;
+        border-radius: 3px;
+    }
+
     #actions-wrapper{
         float: right;
         margin-right: 20px;
+    }
+
+    #actions-extra-container{
+        line-height: 1;
+        position: absolute;
+        border: 1px solid #cacaca;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+        left: 50%;
+        box-sizing: border-box;
+        width: 190px;
+        transform: translate(-50%, 0);
+        padding: 10px 10px 0 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        opacity: 0;
+        top: 70px;
+        z-index: -1;
+        transition: opacity .4s ease 0s, top .4s ease 0s, z-index 0s ease .4s;
+    }
+
+    #actions-extra-container.active{
+        opacity: 1;
+        top: 85px;
+        z-index: 10;
+        transition: opacity .4s ease 0s, top .4s ease 0s, z-index 0s linear 0s;
+    }
+    
+    #actions-extra-container:before {
+        content: '';
+        position: absolute;
+        top: -9px;
+        left: 50%;
+        border-top: 1px solid #cacaca;
+        border-left: 1px solid #cacaca;
+        background-color: #f0f0f0;
+        z-index: 10;
+        width: 15px;
+        height: 15px;
+        transform: translate(-50%, 0) rotate(45deg);
     }
 
     #success-container,

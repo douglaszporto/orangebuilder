@@ -11,6 +11,7 @@ $url->mapping("^admin/novo/([a-zA-Z0-9\-]+)$", "AdminCtrl.Add");
 $url->mapping("^admin/formulario/([a-zA-Z0-9\-]+)$", "AdminCtrl.FormAdd");
 $url->mapping("^admin/salvar/([a-zA-Z0-9\-]+)/([0-9]+)$", "AdminCtrl.Edit");
 $url->mapping("^admin/editar/([a-zA-Z0-9\-]+)/([0-9]+)$", "AdminCtrl.FormEdit");
+$url->mapping("^admin/remover/([a-zA-Z0-9\-]+)$", "AdminCtrl.Delete");
 
 $url->forward();
 

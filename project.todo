@@ -1,0 +1,15 @@
+OrangeBuiler:
+    Admin:
+        ✔ Funcionalidade de remoção de registro @today @done (04/06/2017, 02:55:43)
+        ☐ Listagem > Filtro @high 
+        ☐ Listagem > Ordenação @high 
+        ☐ Listagem > Paginação @high 
+        ☐ Sistema de Login @critical 
+        ☐ Novos componentes de Data, Dinheiro, Upload, Quantidade @high 
+        ☐ Funcionalidade de visualização de registro (resumo) @low
+        ☐ Implementar sistema de submenu @low 
+        ☐ Migrar para Ajax/PushState/Restful @low 
+        ☐ Sistema de Permissões @low 
+    Site:
+        ☐ --- Adicionar tarefas aqui ---
+    Ideias Futuras:
