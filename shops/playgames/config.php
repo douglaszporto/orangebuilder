@@ -7,6 +7,7 @@ define("SHOP_VERSION", "20170602");
 define("SHOP_DOMAIN", "http://playgames.localhost:8000");
 define("SHOP_PRODUCTION", false);
 define("SHOP_ID", "2");
+define("SHOP_SECRET_KEY", "C9vfs5zTpPFLnuBdy9X5HY6s");
 
 define('DB_HOST', '127.0.0.1');
 define('DB_USER', 'root');

@@ -3,7 +3,7 @@
 <div id="form">
     <h2 class="form-new-item">Novo Produto</h2>
 
-    <form id="form-content" method="POST" action="{{$domain}}/admin/novo/produtos">
+    <form id="form-content" method="POST" action="{{$domain}}/admin/produtos/incluir">
         <label for="input-name">Nome</label>
         <input type="text" name="data-name" id="data-name" style="width:460px;" />
 

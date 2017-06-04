@@ -2,17 +2,19 @@
 {{block name='content'}}
 <div id="title-header">
     <h1>Produtos</h1>
-    <input type="text" name="filter" id="input-filter" placeholder="Encontrar produto"/>
-    <button id="btn-filter" class="main"><i class="fa fa-search"></i></button>
+    <form method="POST" action="{{$domain}}/admin/produtos" id="filter-form">
+        <input type="text" name="filter" id="input-filter" placeholder="Encontrar produto" value="{{if strlen($filter) > 0}}{{$filter}}{{/if}}"/>
+        <button id="btn-filter" class="main"><i class="fa fa-search"></i></button>
+    </form>
 
     <div id="actions-wrapper">
         <div id="actions-extra-wrapper">
             <button id="btn-extra" title="Outras ações"><i class="fa fa-ellipsis-h"></i></button>
             <div id="actions-extra-container">
-                <button id="btn-delete" disabled="disabled" data-operation-visibility="3" data-form="datagrid-form" data-href="{{$domain}}/admin/remover/produtos"><i class="fa fa-trash"></i> Remover</button>
+                <button id="btn-delete" disabled="disabled" data-operation-visibility="3" data-form="datagrid-form" data-href="{{$domain}}/admin/produtos/remover"><i class="fa fa-trash"></i> Remover</button>
             </div>
         </div>
-        <button id="btn-new" class="main" data-href="{{$domain}}/admin/formulario/produtos"><i class="fa fa-plus"></i> Adicionar</div>
+        <button id="btn-new" class="main" data-href="{{$domain}}/admin/produtos/form"><i class="fa fa-plus"></i> Adicionar</div>
     </div>
 </div>
 <br />
@@ -48,7 +50,7 @@
                 {{foreach $products as $product}}
                 <tr>
                     <td class="ac"><input type="checkbox" id="datagrid-selected-item-{{$product['id']}}" class="datagrid-selected-items" name="datagrid-selected-items[]" value="{{$product['id']}}" data-input-checkbox/></td>
-                    <td class="al"><a href="{{$domain}}/admin/editar/produtos/{{$product['id']}}" class="datagrid-item-open">{{$product["name"]}}</a></td>
+                    <td class="al"><a href="{{$domain}}/admin/produtos/form/{{$product['id']}}" class="datagrid-item-open">{{$product["name"]}}</a></td>
                     <td class="al">{{$product["category"]}}</td>
                     <td class="ar">{{$product["price"]}}</td>
                     <td class="ar">{{$product["stock"]}}</td>

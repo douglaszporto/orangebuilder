@@ -1,7 +1,8 @@
 OrangeBuiler:
     Admin:
-        ✔ Funcionalidade de remoção de registro @today @done (04/06/2017, 02:55:43)
-        ☐ Listagem > Filtro @high 
+        ✔ Funcionalidade de remoção de registro @done (04/06/2017, 02:55:43)
+        ✔ Refactory da estrutura de Operações @done (04/06/2017, 12:19:27)
+        ✔ Listagem > Filtro @done (04/06/2017, 13:01:01)
         ☐ Listagem > Ordenação @high 
         ☐ Listagem > Paginação @high 
         ☐ Sistema de Login @critical 

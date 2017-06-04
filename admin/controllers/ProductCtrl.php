@@ -16,7 +16,12 @@ class ProductCtrl extends Controller{
     public function Listview(){
         $db = DB::getInstance();
 
-        $db->Query("
+        $filter = "";
+
+        if(strlen($this->filter) > 0)
+            $filter = "AND products.name LIKE ".DB::Clean('%'.$this->filter.'%');
+        
+        $sql = sprintf('
             SELECT 
                 products.id     as id, 
                 products.name   as name, 
@@ -30,8 +35,11 @@ class ProductCtrl extends Controller{
                 ON
                     categories.id = products.category_id
             WHERE 
-                products.shop_id = '".SHOP_ID."'
-        ");
+                products.shop_id = %s
+                %s
+        ', DB::Clean(SHOP_ID), $filter);
+
+        $db->Query($sql);
 
         $products = array();
         while($result = $db->Fetch()){
@@ -104,11 +112,14 @@ class ProductCtrl extends Controller{
         return !$success ? false : $db->InsertedId();
     }
 
-    public function BeforeUpdate($id){
+    public function BeforeUpdate(){
+        parent::validateCSRF($_POST["data-id"], $_POST["data-csrf"]);
+
         $errors = $this->ValidateData();
         if(count($errors) > 0)
             return $errors;
 
+        $this->data["id"]          = $_POST["data-id"];
         $this->data["name"]        = $_POST["data-name"];
         $this->data["category_id"] = $_POST["data-category"];
         $this->data["price"]       = $_POST["data-price"];
@@ -119,11 +130,11 @@ class ProductCtrl extends Controller{
         return true;
     }
 
-    public function Update($id){
+    public function Update(){
         $db = DB::getInstance();
-        $success = $db->QueryUpdate('products', $this->data, "id = '".((int)$id)."'");
+        $success = $db->QueryUpdate('products', $this->data, "id = '".((int)$this->data["id"])."'");
 
-        return !$success ? false : $id;
+        return !$success ? false : $this->data["id"];
     }
 
 

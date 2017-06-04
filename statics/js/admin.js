@@ -37,6 +37,13 @@ $(document).ready(function(){
             }
         });
 
+        $("#btn-filter").click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+
+            $(this).parents("form").submit();
+        });
+
         $("#btn-extra").click(function(e){
             e.stopPropagation();
             e.preventDefault();

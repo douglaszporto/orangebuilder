@@ -34,13 +34,49 @@ class AdminCtrl{
 		}
 	}
 
+	public function Operations($ctrl, $operation){
+		if($operation === 'incluir'){
+			$this->Add($ctrl);
+			return;
+		}
+
+		if($operation === 'editar'){
+			$this->Edit($ctrl);
+			return;
+		}
+
+		if($operation === 'remover'){
+			$this->Delete($ctrl);
+			return;
+		}
+
+		try{
+			$this->getCtrlClass($ctrl);
+
+			if(!method_exists($this->instance, "callMethodByOperation"))
+				throw new Exception("Não há operações definidas para a rotina: ". $className);
+
+			$this->instance->callMethodByOperation($operation);
+		}catch(Exception $e){
+			$error = new ErrorHandlerCtrl();
+			$error->ErrorHandler($e->getMessage());
+		}
+	}
+
+	public function Forms($ctrl, $id = null){
+		return empty($id) ? $this->FormAdd($ctrl) : $this->FormEdit($ctrl, $id);
+	}
+
 	public function Listing($ctrl){
 		try{
 			$this->getCtrlClass($ctrl);
 
 			if(!method_exists($this->instance, "Listview"))
-				throw new Exception("Não há listagem difinida para a rotina: ". $className);
+				throw new Exception("Não há listagem definida para a rotina: ". $className);
 
+			$filter = $_POST["filter"] ?? $_GET["filter"] ?? null;
+
+			$this->instance->setFilter($filter);
 			$this->instance->Listview();
 		}catch(Exception $e){
 			$error = new ErrorHandlerCtrl();
@@ -53,7 +89,7 @@ class AdminCtrl{
 			$this->getCtrlClass($ctrl);
 
 			if(!method_exists($this->instance, "AddForm"))
-				throw new Exception("Não há formulario de inclusão difinido para a rotina: ". $className);
+				throw new Exception("Não há formulario de inclusão definido para a rotina: ". $className);
 
 			$this->instance->AddForm();
 		}catch(Exception $e){
@@ -67,7 +103,7 @@ class AdminCtrl{
 			$this->getCtrlClass($ctrl);
 
 			if(!method_exists($this->instance, "EditForm"))
-				throw new Exception("Não há formulario de edição difinido para a rotina: ". $ctrl);
+				throw new Exception("Não há formulario de edição definido para a rotina: ". $ctrl);
 
 			$this->instance->EditForm($id);
 		}catch(Exception $e){
@@ -93,7 +129,7 @@ class AdminCtrl{
 			}
 
 			if(!method_exists($this->instance, "Insert"))
-				throw new Exception("Não há inclusão difinida para a rotina: ". $ctrl);
+				throw new Exception("Não há inclusão definida para a rotina: ". $ctrl);
 
 			$id = $this->instance->Insert();
 
@@ -113,7 +149,7 @@ class AdminCtrl{
 		}
 	}
 
-	public function Edit($ctrl, $id){
+	public function Edit($ctrl){
 		$db = DB::getInstance();
 
 		try{
@@ -121,7 +157,7 @@ class AdminCtrl{
 			$db->BeginTransaction();
 
 			if(method_exists($this->instance, "BeforeUpdate")){
-				$validations = $this->instance->BeforeUpdate($id);
+				$validations = $this->instance->BeforeUpdate();
 				if(is_array($validations) || is_string($validations)){
 					$this->instance->setErrors($validations);
 					$this->instance->Listview();
@@ -130,15 +166,15 @@ class AdminCtrl{
 			}
 
 			if(!method_exists($this->instance, "Update"))
-				throw new Exception("Não há alteração difinida para a rotina: ". $ctrl);
+				throw new Exception("Não há alteração definida para a rotina: ". $ctrl);
 
-			$id = $this->instance->Update($id);
+			$id = $this->instance->Update();
 
 			if(empty($id))
 				throw new Exception("Ocorreu algum erro ao alterar o registro ".$id." na rotina: ". $ctrl);
 
 			if(method_exists($this->instance, "AfterUpdate"))
-				$this->instance->AfterUpdate($id);
+				$this->instance->AfterUpdate();
 
 			$db->CommitTransaction();
 			$this->instance->setMessage("Parabéns, dados alterados com sucesso!");
@@ -152,7 +188,7 @@ class AdminCtrl{
 
 	public function Delete($ctrl){
 		$db = DB::getInstance();
-		
+
 		try{
 
 			if(!isset($_POST["datagrid-selected-items"]))
@@ -179,7 +215,7 @@ class AdminCtrl{
 			}
 
 			if(!method_exists($this->instance, "Delete"))
-				throw new Exception("Não há remoção difinida para a rotina: ". $ctrl);
+				throw new Exception("Não há remoção definida para a rotina: ". $ctrl);
 
 			$result = $this->instance->Delete($ids);
 

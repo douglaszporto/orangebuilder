@@ -123,6 +123,10 @@ br{
         outline: none;
     }
 
+    #filter-form{
+        display: inline-block;
+    }
+
     input[type="submit"],
     button{
         border: 0;
