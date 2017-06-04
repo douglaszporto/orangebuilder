@@ -9,6 +9,8 @@
             var comboboxNanoContent = $("<div/>");
             var numOfOptions        = 0;
 
+            var isUnfilterable = typeof select.attr('data-input-unfilterable') !== 'undefined';
+
             select.addClass("hidden");
             wrapper.addClass("input-select-wrapper");
 
@@ -24,13 +26,19 @@
                 if(self.attr('selected') == 'selected')
                     filter.val($(this).html());
 
-                opt.click(function(){
+                opt.click(function(e){
                     
                     select.find("option[selected]").removeAttr("selected");
                     self.attr("selected","selected");
 
+                    if(isUnfilterable)
+                        filter.removeAttr('readonly');
+                    
                     filter.val($(this).text());
                     filter.focus().blur();
+
+                    if(isUnfilterable)
+                        filter.attr('readonly','readonly');
 
                 });
 
@@ -51,6 +59,8 @@
                 comboboxNano.css("height", calcHeight);
 
                 select.parent().find(".nano").nanoScroller();
+
+                return calcHeight;
             };
 
             var filterOptions = function(){
@@ -75,17 +85,28 @@
             filter.attr("type","text");
             filter.focus(function(e){
                 numOfOptions = $(this).parent().find(".input-select-option:not(.hidden)").length;
-                comboboxRecalculateHeight(numOfOptions);
+                var selectHeight = comboboxRecalculateHeight(numOfOptions);
+
+                selectHeight += 50; // Input filter height;
 
                 combobox.addClass("active");
+
+                var availableHeight = $("#content").height() - selectHeight;
+
+                if(filter.offset().top >= availableHeight)
+                    combobox.addClass("from-bottom");
             });
             filter.blur(function(){
                 combobox.css("height",0);
                 combobox.removeClass("active");
             });
-            filter.keyup(function(){
-                filterOptions();
-            });
+            if(isUnfilterable){
+                filter.attr('readonly','readonly');
+            } else {
+                filter.keyup(function(){
+                    filterOptions();
+                });
+            }
 
             var widthRaw = select.css('width');
             var width = widthRaw.indexOf('%') > 0 ? (select.parent().width() * select.width()/100) : select.width();

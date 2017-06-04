@@ -16,11 +16,31 @@ class ProductCtrl extends Controller{
     public function Listview(){
         $db = DB::getInstance();
 
-        $filter = "";
+        $filter   = "";
+        $orderBy  = "1";
+        $orderDir = "asc";
 
         if(strlen($this->filter) > 0)
             $filter = "AND products.name LIKE ".DB::Clean('%'.$this->filter.'%');
-        
+        if(strlen($this->orderBy) > 0){
+            $possibleColumns = array(
+                'name'     => 'products.name',
+                'price'    => 'products.price',
+                'stock'    => 'products.stock',
+                'category' => 'categories.name'
+            );
+            $orderBy = in_array($this->orderBy, array_keys($possibleColumns)) ? $possibleColumns[$this->orderBy] : '1';
+        }
+    
+        $this->orderDir = $this->orderDir === 'desc' ? 'desc' : 'asc';
+
+        $page = 0;
+        $byPage = 10;
+
+        $db->Query("SELECT COUNT(id) as count FROM products WHERE shop_id = ".DB::Clean(SHOP_ID));
+        $count = $db->Fetch();
+        $this->setRegCount($count["count"]);
+
         $sql = sprintf('
             SELECT 
                 products.id     as id, 
@@ -37,7 +57,10 @@ class ProductCtrl extends Controller{
             WHERE 
                 products.shop_id = %s
                 %s
-        ', DB::Clean(SHOP_ID), $filter);
+            ORDER BY
+                %s %s
+            LIMIT %s,%s
+        ', DB::Clean(SHOP_ID), $filter, $orderBy, $this->orderDir, $page, $byPage);
 
         $db->Query($sql);
 

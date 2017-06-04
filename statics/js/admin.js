@@ -3,7 +3,7 @@ $(document).ready(function(){
     $("body").removeClass("preload");
 
     var checkMenuSelected = function(){
-        var url = window.location.href;
+        var url = window.location.href.split('?')[0];
 
         $("nav a").each(function(){
             if($(this).attr('href') === url){

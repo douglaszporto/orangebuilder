@@ -40,10 +40,10 @@
             <thead>
                 <tr>
                     <th class="ac" style="width:10%"><input type="checkbox" id="datagrid-select-all" name="datagrid-select-all" data-input-checkbox/></th>
-                    <th class="al" style="width:30%">Nome <i class="fa fa-sort-up"></i></th>
-                    <th class="al" style="width:30%">Categoria</th>
-                    <th class="ar" style="width:15%">Preço (R$)</th>
-                    <th class="ar" style="width:15%">Em estoque</th>
+                    <th class="al sortable {{if $orderBy == 'name'}}{{$orderDir}}{{/if}}" style="width:30%"><a href="{{$domain}}/admin/produtos?orderBy=name&orderDir={{$reverseOrderDir}}">Nome</a></th>
+                    <th class="al sortable {{if $orderBy == 'category'}}{{$orderDir}}{{/if}}" style="width:30%"><a href="{{$domain}}/admin/produtos?orderBy=category&orderDir={{$reverseOrderDir}}">Categoria</a></th>
+                    <th class="ar sortable {{if $orderBy == 'price'}}{{$orderDir}}{{/if}}" style="width:15%"><a href="{{$domain}}/admin/produtos?orderBy=price&orderDir={{$reverseOrderDir}}">Preço (R$)</a></th>
+                    <th class="ar sortable {{if $orderBy == 'stock'}}{{$orderDir}}{{/if}}" style="width:15%"><a href="{{$domain}}/admin/produtos?orderBy=stock&orderDir={{$reverseOrderDir}}">Em estoque</a></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,6 +56,19 @@
                     <td class="ar">{{$product["stock"]}}</td>
                 </tr>
                 {{/foreach}}
+                <tr>
+                    <td colspan="5">
+                        <div id="datagrid-footer-count">{{$regCount}}</div>
+                        <div id="datagrid-foorter-bypage-wrapper">
+                            <select name="bypage" id="datagrid-foorter-bypage" data-input-select data-input-unfilterable>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

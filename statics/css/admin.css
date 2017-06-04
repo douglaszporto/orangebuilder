@@ -293,6 +293,13 @@ br{
         padding: 0 5px;
     }
 
+    #datagrid-view table th a,
+    #datagrid-view table th a:hover,
+    #datagrid-view table th a:visited{
+        color:#333;
+    }
+
+
     #datagrid-view table th{
         border-bottom: 1px solid #cacaca;
         font-weight: bold;
@@ -315,12 +322,38 @@ br{
         text-align: center;
     }
 
+    #datagrid-view table td,
+    #datagrid-view table th{
+        padding: 0 20px 0 10px;
+    }
+
     #datagrid-view .datagrid-item-open{
         color: #dfa415;
     }
 
-    #datagrid-view th i{
+    #datagrid-view th.sortable{
+        position: relative;
+    }
+    #datagrid-view th.sortable:before{
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: 0;
+        top: 0;
         font-size: 15px;
+        color: #cacaca;
+        content: '\f0dc';
+    }
+    #datagrid-view th.sortable.asc:before{
+        color: #333;
+        content: '\f0de';
+    }
+    #datagrid-view th.sortable.desc:before{
+        color: #333;
+        content: '\f0dd';
+    }
+
+    #datagrid-foorter-bypage{
+        width: 60px;
     }
 
 

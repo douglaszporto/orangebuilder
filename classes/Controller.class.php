@@ -11,7 +11,8 @@ abstract class Controller{
     protected $filter;
     protected $page;
     protected $orderBy;
-    protected $orderDirection;
+    protected $orderDir;
+    protected $regCount;
 
     protected $errors;
     protected $success;
@@ -34,6 +35,13 @@ abstract class Controller{
         $this->filter = $filter;
     }
 
+    public function setOrderBy($orderBy){
+        $this->orderBy = $orderBy;
+    }
+    public function setOrderDir($orderDir){
+        $this->orderDir = $orderDir;
+    }
+
     public function setErrors($error){
         $this->errors = is_string($error) ? array($error) : $error;
     }
@@ -42,15 +50,23 @@ abstract class Controller{
         $this->success = $msg;
     }
 
+    public function setRegCount($regCount){
+        $this->regCount = $regCount . ($regCount == 1 ? " registro" : " registros");
+    }
+
     public function mergeContext(array $context){
 
         if(isset($context["data"]) && is_array($context["data"]) && isset($context["data"]["id"]))
             $context["data"]["csrf"] = password_hash($context["data"]["id"] . SHOP_SECRET_KEY, PASSWORD_BCRYPT);
 
         $defaultContext = array(
-            'errors'  => $this->errors,
-            'success' => $this->success,
-            'filter'  => $this->filter
+            'errors'          => $this->errors,
+            'success'         => $this->success,
+            'filter'          => $this->filter,
+            'orderBy'         => $this->orderBy,
+            'orderDir'        => $this->orderDir,
+            'reverseOrderDir' => $this->orderDir === 'desc' ? 'asc' : 'desc',
+            'regCount'        => $this->regCount
         );
 
         return array_merge($defaultContext, $context);

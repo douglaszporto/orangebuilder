@@ -40,6 +40,11 @@
 		transition: height .3s ease 0s, border 0s ease .3s;
 	}
 
+	.input-select-combobox.from-bottom{
+		top: auto;
+		bottom: calc(100% + 1px);
+	}
+
 	.input-select-combobox.active{
 		border-color: #cacaca;
 		transition: height .3s ease 0s, border 0s ease 0s;
