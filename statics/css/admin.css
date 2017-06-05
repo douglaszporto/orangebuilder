@@ -483,7 +483,7 @@ br{
         display: block;
     }
 
-    #form-content input{
+    input{
         height:40px;
         box-sizing: border-box;
         border: 1px solid #cacaca;

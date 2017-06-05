@@ -227,8 +227,61 @@
 
 
     $.fn.inputDateComponent = function(){
-        $(this).datepicker();
-        $(this).addClass("data-input-datepicker");
+        var $wrapper = $("<div />");;
+        var $icon    = $("<div />");
+        var $input   = $(this).clone(true)
+
+        $wrapper.addClass("data-input-datepicker-wrapper");
+        $icon.addClass("data-input-datepicker-icon");
+        $input.addClass("data-input-datepicker-input");
+
+        var widthRaw = $input.css('width');
+        var width = widthRaw.indexOf('%') > 0 ? ($input.parent().width() * $input.width()/100) : $input.width();
+        
+        $wrapper.css('width', width);
+
+        $input.datepicker({
+            'dateFormat'      : 'dd/mm/yy',
+            'dayNames'        : ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+            'dayNamesMin'     : ["D", "S", "T", "Q", "Q", "S", "S"],
+            'dayNamesShort'   : ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
+            'monthNames'      : ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+            'monthNamesShort' : ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+        });
+
+        $input.attr('placeholder', 'dd/mm/yyyy');
+        $input.on('change', function(){
+            var dt = $(this).val().replace(/[^\d]/gi,'');
+
+            if(dt.length < 8){
+                $(this).val('');
+                return;
+            }
+
+            var day   = parseInt(dt.substr(0,2),10);
+            var month = parseInt(dt.substr(2,2),10) - 1;
+            var year  = parseInt(dt.substr(4,4),10);
+
+            var date = new Date(year, month, day, 0, 0, 0, 0);
+
+            console.log(date);
+
+            if(date.getDate() != day || date.getMonth() != month || date.getFullYear() != year){
+                $(this).val('');
+                return;
+            }
+
+            var formatedDay   = ('00' + day).substr(-2);
+            var formatedMonth = ('00' + (month+1)).substr(-2);
+
+            $(this).val(formatedDay + '/' + formatedMonth + '/' + year);
+        });
+
+        $wrapper.append($icon);
+        $wrapper.append($input);
+
+        $(this).after($wrapper);
+        $(this).remove();
     };
 
 

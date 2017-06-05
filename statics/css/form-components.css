@@ -153,6 +153,37 @@
 		border-color: #7b7b7b;
 	}
 
+
+/* DATE COMPONENT */
+.data-input-datepicker-wrapper{
+	position: relative;
+}
+
+.data-input-datepicker-icon{
+	width: 40px;
+	height: 40px;
+	left: 0;
+	top: 0;
+	position: absolute;
+	border-right: 1px solid #cacaca;
+}
+
+.data-input-datepicker-icon:before{
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	left: 0;
+	top: 0;
+	font-family: 'FontAwesome';
+	content: '\f133';
+}
+
+.data-input-datepicker-input{
+	padding-left: 45px;
+}
+
 /* NANO SCROLLER */
 .nano { background: #bba; }
 .nano .nano-content { padding: 0px; }

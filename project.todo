@@ -4,9 +4,10 @@ OrangeBuiler:
         ✔ Refactory da estrutura de Operações @done (04/06/2017, 12:19:27)
         ✔ Listagem > Filtro @done (04/06/2017, 13:01:01)
         ✔ Listagem > Ordenação @done (04/06/2017, 20:58:14)
-        ✔ Listagem > Paginação @critical @done (05/06/2017, 14:42:27)
+        ✔ Listagem > Paginação @done (05/06/2017, 14:42:27)
         ☐ Novos componentes de Data, Dinheiro, Upload, Quantidade @high 
         ☐ Adicionar fotos e componente de descrição no Produtos @high 
+        ☐ Adicionar validação de formulários em tempo de tela @high 
         ☐ Adicionar rotina de Categorias @high 
         ☐ Adicionar rotina de Detalhamentos de uma Categoria @high 
         ☐ Adicionar rotina de Pedidos @high 
