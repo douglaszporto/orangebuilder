@@ -75,12 +75,16 @@ class AdminCtrl{
 				throw new Exception("Não há listagem definida para a rotina: ". $className);
 
 			$filter   = $_POST["filter"] ?? $_GET["filter"] ?? null;
-			$orderBy  = $_POST["orderBy"] ?? $_GET["orderBy"] ?? null;
-			$orderDir = $_POST["orderDir"] ?? $_GET["orderDir"] ?? null;
+			$orderBy  = $_POST["orderby"] ?? $_GET["orderby"] ?? null;
+			$orderDir = $_POST["orderdir"] ?? $_GET["orderdir"] ?? null;
+			$bypage   = $_POST["bypage"] ?? $_GET["bypage"] ?? 10;
+			$page     = $_POST["page"] ?? $_GET["page"] ?? 1;
 
 			$this->instance->setFilter($filter);
 			$this->instance->setOrderBy($orderBy);
 			$this->instance->setOrderDir($orderDir);
+			$this->instance->setByPage($bypage);
+			$this->instance->setPage($page);
 			$this->instance->Listview();
 		}catch(Exception $e){
 			$error = new ErrorHandlerCtrl();

@@ -20,6 +20,9 @@
 
         <label for="input-stock">Em estoque</label>
         <input type="text" name="data-stock" id="data-stock" style="width:460px;" />
+
+        <label for="input-stock">Data de Compra(?)</label>
+        <input type="text" name="data-dtbuy" id="data-dtbuy" style="width:460px;" data-input-date/>
     </form>
 
     <div id="form-buttons">

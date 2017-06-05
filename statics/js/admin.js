@@ -6,7 +6,7 @@ $(document).ready(function(){
         var url = window.location.href.split('?')[0];
 
         $("nav a").each(function(){
-            if($(this).attr('href') === url){
+            if(url.indexOf($(this).attr('href')) >= 0){
                 $(this).parent().addClass("selected");
                 return false;
             }
@@ -17,6 +17,11 @@ $(document).ready(function(){
     var formFilterEvents = function(){
         $("[data-input-select]").inputSelectComponent();
         $("[data-input-checkbox]").inputCheckboxComponent();
+        $("[data-input-select-nofilter]").inputSelectComponentNoFilter();
+        $("[data-input-date]").inputDateComponent();
+        $("[data-input-pagination]").dataInputPagination();
+        $("[data-input-pagination-bypage]").dataInputPaginationByPage();
+        $("[data-input-columnsort]").dataInputColumnSort();
 
         $("#form-button-add, #form-button-edit").click(function(){
             $("#form form").submit();

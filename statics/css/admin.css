@@ -305,7 +305,7 @@ br{
         font-weight: bold;
     }
 
-    #datagrid-view table tr:hover td{
+    #datagrid-view table tr:hover td:not(#datagrid-footer){
         background-color: #f0f0f0;
     }
 
@@ -333,6 +333,7 @@ br{
 
     #datagrid-view th.sortable{
         position: relative;
+        cursor: pointer;
     }
     #datagrid-view th.sortable:before{
         font-family: 'FontAwesome';
@@ -350,6 +351,62 @@ br{
     #datagrid-view th.sortable.desc:before{
         color: #333;
         content: '\f0dd';
+    }
+
+    #datagrid-footer{
+        position: relative;
+    }
+
+    #datagrid-pagination{
+        position: absolute;
+        top: 3px;
+        left: 50%;
+        transform: translate3d(-50%, 0, 0);
+    }
+
+    .datagrid-page{
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        float: left;
+        margin-right: 2px;
+        border: 1px solid #cacaca;
+        border-radius: 3px;
+        color: #333;
+        cursor: pointer;
+        text-align: center;
+        transition: all .4s ease 0s;
+    }
+    .datagrid-page:hover{
+        background-color: #cacaca;
+        border: 1px solid #999;
+    }
+    .datagrid-page.disabled{
+        opacity: 0.4;
+        cursor: default;
+    }
+    .datagrid-page.active{
+        color: #fff;
+        background-color: #ffc435;
+        border: #dfa415;
+    }
+
+    .datagrid-page:last-child{
+        margin-right: 0;
+    }
+
+    #datagrid-view td#datagrid-footer{
+        border-top: 1px solid #cacaca;
+        padding: 5px 0;
+    }
+
+    #datagrid-footer-count{
+        float: left;
+    }
+
+    #datagrid-foorter-bypage-wrapper{
+        float: right;
+        width: 70px;
     }
 
     #datagrid-foorter-bypage{
@@ -434,4 +491,5 @@ br{
         border-radius: 3px;
         width: 100%;
         padding: 0 5px;
+        background-color: transparent;
     }

@@ -3,7 +3,11 @@
 <div id="title-header">
     <h1>Produtos</h1>
     <form method="POST" action="{{$domain}}/admin/produtos" id="filter-form">
-        <input type="text" name="filter" id="input-filter" placeholder="Encontrar produto" value="{{if strlen($filter) > 0}}{{$filter}}{{/if}}"/>
+        <input type="text" name="filter" id="input-filter" value="{{$filter}}"/>
+        <input type="hidden" name="page" id="input-page" value="{{$page}}"/>
+        <input type="hidden" name="bypage" id="input-bypage" value="{{$bypage}}"/>
+        <input type="hidden" name="orderby" id="input-orderby" value="{{$orderBy}}"/>
+        <input type="hidden" name="orderdir" id="input-orderdir" value="{{$orderDir}}"/>
         <button id="btn-filter" class="main"><i class="fa fa-search"></i></button>
     </form>
 
@@ -40,10 +44,10 @@
             <thead>
                 <tr>
                     <th class="ac" style="width:10%"><input type="checkbox" id="datagrid-select-all" name="datagrid-select-all" data-input-checkbox/></th>
-                    <th class="al sortable {{if $orderBy == 'name'}}{{$orderDir}}{{/if}}" style="width:30%"><a href="{{$domain}}/admin/produtos?orderBy=name&orderDir={{$reverseOrderDir}}">Nome</a></th>
-                    <th class="al sortable {{if $orderBy == 'category'}}{{$orderDir}}{{/if}}" style="width:30%"><a href="{{$domain}}/admin/produtos?orderBy=category&orderDir={{$reverseOrderDir}}">Categoria</a></th>
-                    <th class="ar sortable {{if $orderBy == 'price'}}{{$orderDir}}{{/if}}" style="width:15%"><a href="{{$domain}}/admin/produtos?orderBy=price&orderDir={{$reverseOrderDir}}">Preço (R$)</a></th>
-                    <th class="ar sortable {{if $orderBy == 'stock'}}{{$orderDir}}{{/if}}" style="width:15%"><a href="{{$domain}}/admin/produtos?orderBy=stock&orderDir={{$reverseOrderDir}}">Em estoque</a></th>
+                    <th class="al sortable {{if $orderBy == 'name'}}{{$orderDir}}{{/if}}" data-input-columnsort="name" style="width:30%">Nome</th>
+                    <th class="al sortable {{if $orderBy == 'category'}}{{$orderDir}}{{/if}}" data-input-columnsort="category" style="width:30%">Categoria</th>
+                    <th class="ar sortable {{if $orderBy == 'price'}}{{$orderDir}}{{/if}}" data-input-columnsort="price" style="width:15%">Preço (R$)</th>
+                    <th class="ar sortable {{if $orderBy == 'stock'}}{{$orderDir}}{{/if}}" data-input-columnsort="stock" style="width:15%">Em estoque</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,14 +61,25 @@
                 </tr>
                 {{/foreach}}
                 <tr>
-                    <td colspan="5">
+                    <td colspan="5" id="datagrid-footer">
                         <div id="datagrid-footer-count">{{$regCount}}</div>
+                        {{if $pages > 1}}
+                            <div id="datagrid-pagination">
+                                <div data-input-pagination="1" class="datagrid-page {{if $isfirstPage}}disabled{{/if}}"><i class="fa fa-angle-double-left"></i></a></div>
+                                <div data-input-pagination="{{max(1,$page - 1)}}" class="datagrid-page {{if $isfirstPage}}disabled{{/if}}"><i class="fa fa-angle-left"></i></div>
+                                {{for $p=$initialPage to $finalPage}}
+                                <div data-input-pagination="{{$p}}" class="datagrid-page {{if $p == $page}}active{{/if}}">{{$p}}</div>
+                                {{/for}}
+                                <div data-input-pagination="{{min($pages, $page + 1)}}" class="datagrid-page {{if $isLastPage}}disabled{{/if}}"><i class="fa fa-angle-right"></i></div>
+                                <div data-input-pagination="{{$pages}}" class="datagrid-page {{if $isLastPage}}disabled{{/if}}"><i class="fa fa-angle-double-right"></i></div>
+                            </div>
+                        {{/if}}
                         <div id="datagrid-foorter-bypage-wrapper">
-                            <select name="bypage" id="datagrid-foorter-bypage" data-input-select data-input-unfilterable>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                            <select name="bypage" id="datagrid-foorter-bypage" data-input-select-nofilter data-input-pagination-bypage>
+                                <option value="10" {{if $bypage==10}}selected{{/if}}>10</option>
+                                <option value="20" {{if $bypage==20}}selected{{/if}}>20</option>
+                                <option value="50" {{if $bypage==50}}selected{{/if}}>50</option>
+                                <option value="100" {{if $bypage==100}}selected{{/if}}>100</option>
                             </select>
                         </div>
                     </td>

@@ -1,4 +1,38 @@
 (function( $ ) {
+
+
+    var comboboxRecalculateHeight = function(numItems, combobox, comboboxNano, select){
+        var calcHeight = Math.min(numItems, 6) * 40; // each option has 40px height
+        
+        combobox.css("height", calcHeight);
+        comboboxNano.css("height", calcHeight);
+
+        select.parent().find(".nano").nanoScroller();
+
+        return calcHeight;
+    };
+
+    var filterOptions = function(filter, combobox, comboboxNano, select){
+        var value = filter.val();
+
+        numItems = 0;
+        filter.parent().find(".input-select-option").each(function(){
+            var optVal = $(this).text();
+
+            if(optVal.indexOf(value) < 0) {
+                $(this).addClass("hidden");
+            } else {
+                $(this).removeClass("hidden");
+                numItems++;
+            }
+        });
+
+        comboboxRecalculateHeight(numItems, combobox, comboboxNano, select);
+    }
+
+
+
+
     $.fn.inputSelectComponent = function() {
         this.each(function() {
             var select              = $(this);
@@ -9,12 +43,10 @@
             var comboboxNanoContent = $("<div/>");
             var numOfOptions        = 0;
 
-            var isUnfilterable = typeof select.attr('data-input-unfilterable') !== 'undefined';
-
             select.addClass("hidden");
             wrapper.addClass("input-select-wrapper");
-
             combobox.addClass("input-select-combobox");
+
             $(this).find("option").each(function(){
                 var opt  = $("<div/>");
                 var self = $(this);
@@ -27,19 +59,11 @@
                     filter.val($(this).html());
 
                 opt.click(function(e){
-                    
                     select.find("option[selected]").removeAttr("selected");
                     self.attr("selected","selected");
 
-                    if(isUnfilterable)
-                        filter.removeAttr('readonly');
-                    
                     filter.val($(this).text());
                     filter.focus().blur();
-
-                    if(isUnfilterable)
-                        filter.attr('readonly','readonly');
-
                 });
 
                 numOfOptions++;
@@ -52,40 +76,11 @@
             comboboxNano.append(comboboxNanoContent);
             combobox.append(comboboxNano);
 
-            var comboboxRecalculateHeight = function(numItems){
-                var calcHeight = Math.min(numItems, 6) * 40; // each option has 40px height
-                
-                combobox.css("height", calcHeight);
-                comboboxNano.css("height", calcHeight);
-
-                select.parent().find(".nano").nanoScroller();
-
-                return calcHeight;
-            };
-
-            var filterOptions = function(){
-                var value = filter.val();
-
-                numItems = 0;
-                filter.parent().find(".input-select-option").each(function(){
-                    var optVal = $(this).text();
-
-                    if(optVal.indexOf(value) < 0) {
-                        $(this).addClass("hidden");
-                    } else {
-                        $(this).removeClass("hidden");
-                        numItems++;
-                    }
-                });
-
-                comboboxRecalculateHeight(numItems);
-            }
-
-            filter.addClass("input-select-filter")
+            filter.addClass("input-select-filter");
             filter.attr("type","text");
             filter.focus(function(e){
                 numOfOptions = $(this).parent().find(".input-select-option:not(.hidden)").length;
-                var selectHeight = comboboxRecalculateHeight(numOfOptions);
+                var selectHeight = comboboxRecalculateHeight(numOfOptions, combobox, comboboxNano, select);
 
                 selectHeight += 50; // Input filter height;
 
@@ -100,13 +95,9 @@
                 combobox.css("height",0);
                 combobox.removeClass("active");
             });
-            if(isUnfilterable){
-                filter.attr('readonly','readonly');
-            } else {
-                filter.keyup(function(){
-                    filterOptions();
-                });
-            }
+            filter.keyup(function(){
+                filterOptions(filter, combobox, comboboxNano, select);
+            });
 
             var widthRaw = select.css('width');
             var width = widthRaw.indexOf('%') > 0 ? (select.parent().width() * select.width()/100) : select.width();
@@ -120,6 +111,92 @@
 
         return this;
     };
+
+
+
+    $.fn.inputSelectComponentNoFilter = function() {
+        this.each(function() {
+            var select              = $(this);
+            var wrapper             = $("<div/>");
+            var value               = $("<div/>");
+            var combobox            = $("<div/>");
+            var comboboxNano        = $("<div/>");
+            var comboboxNanoContent = $("<div/>");
+            var numOfOptions        = 0;
+
+            select.addClass("hidden");
+            wrapper.addClass("input-select-wrapper");
+
+            combobox.addClass("input-select-combobox");
+            $(this).find("option").each(function(){
+                var opt  = $("<div/>");
+                var self = $(this);
+
+                opt.html($(this).html());
+                opt.attr("data-value", $(this).attr("val"));
+                opt.addClass("input-select-option");
+
+                if(self.attr('selected') == 'selected'){
+                    value.html($(this).html());
+                }
+
+                opt.click(function(e){                    
+                    select.find("option[selected]").removeAttr("selected");
+                    self.attr("selected","selected");
+
+                    value.html($(this).text());
+
+                    select.trigger('change');
+                });
+
+                numOfOptions++;
+                comboboxNanoContent.append(opt);
+            });
+
+            comboboxNano.addClass("nano");
+            comboboxNanoContent.addClass("nano-content");
+
+            comboboxNano.append(comboboxNanoContent);
+            combobox.append(comboboxNano);
+
+            value.addClass("input-select-value");
+            value.click(function(e){
+                e.stopPropagation();
+
+                numOfOptions = $(this).parent().find(".input-select-option:not(.hidden)").length;
+                var selectHeight = comboboxRecalculateHeight(numOfOptions, combobox, comboboxNano, select);
+
+                selectHeight += 50;
+
+                combobox.addClass("active");
+
+                var availableHeight = $("#content").height() - selectHeight;
+
+                if(value.offset().top >= availableHeight)
+                    combobox.addClass("from-bottom");
+            });
+
+            $('body').click(function(){
+                combobox.css("height",0);
+                combobox.removeClass("active");
+            });
+
+            var widthRaw = select.css('width');
+            var width = widthRaw.indexOf('%') > 0 ? (select.parent().width() * select.width()/100) : select.width();
+            wrapper.css('width', width);
+            
+            wrapper.append(value);
+            wrapper.append(combobox);
+
+            select.after(wrapper);
+        });
+
+        return this;
+    };
+
+
+
+
 
     $.fn.inputCheckboxComponent = function() {
         this.each(function() {
@@ -146,5 +223,53 @@
         });
 
         return this;
+    };
+
+
+    $.fn.inputDateComponent = function(){
+        $(this).datepicker();
+        $(this).addClass("data-input-datepicker");
+    };
+
+
+
+
+
+    $.fn.dataInputPagination = function(){
+        $(this).on('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();
+
+            if($(this).hasClass('disabled'))
+                return;
+
+            $('#input-page').val($(this).attr('data-input-pagination'));
+            $('#filter-form').submit();
+        });
+    };
+    $.fn.dataInputPaginationByPage = function(){
+        $(this).on('change', function(e){
+            e.stopPropagation();
+            e.preventDefault();
+            
+            $('#input-bypage').val($(this).val());
+            $('#filter-form').submit();
+        });
+    };
+    $.fn.dataInputColumnSort = function(){
+        $(this).on('click', function(e){
+            e.stopPropagation();
+            e.preventDefault();
+
+            console.log($('#input-orderdir').val());
+            var currentOrderDir = $('#input-orderdir').val();
+            var orderDir = currentOrderDir == 'desc' ? 'asc' : 'desc';
+
+            console.log($(this).attr('data-input-columnsort') + ' = ' + orderDir);
+
+            $('#input-orderby').val($(this).attr('data-input-columnsort'));
+            $('#input-orderdir').val(orderDir);
+            $('#filter-form').submit();
+        });
     };
 }(jQuery));

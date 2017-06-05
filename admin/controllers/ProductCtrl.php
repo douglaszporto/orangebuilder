@@ -32,14 +32,12 @@ class ProductCtrl extends Controller{
             $orderBy = in_array($this->orderBy, array_keys($possibleColumns)) ? $possibleColumns[$this->orderBy] : '1';
         }
     
-        $this->orderDir = $this->orderDir === 'desc' ? 'desc' : 'asc';
+        $this->orderDir = $this->orderDir == 'desc' ? 'desc' : 'asc';
 
-        $page = 0;
-        $byPage = 10;
-
-        $db->Query("SELECT COUNT(id) as count FROM products WHERE shop_id = ".DB::Clean(SHOP_ID));
+        $db->Query("SELECT COUNT(id) as count FROM products WHERE shop_id = ".DB::Clean(SHOP_ID)." ".$filter);
         $count = $db->Fetch();
         $this->setRegCount($count["count"]);
+        $this->sanitizePagination();
 
         $sql = sprintf('
             SELECT 
@@ -60,7 +58,7 @@ class ProductCtrl extends Controller{
             ORDER BY
                 %s %s
             LIMIT %s,%s
-        ', DB::Clean(SHOP_ID), $filter, $orderBy, $this->orderDir, $page, $byPage);
+        ', DB::Clean(SHOP_ID), $filter, $orderBy, $this->orderDir, $this->bypage*($this->page-1), $this->bypage);
 
         $db->Query($sql);
 
@@ -70,7 +68,7 @@ class ProductCtrl extends Controller{
             $products[] = $result;
         }
 
-        View::RenderRequest("Products/Products.tpl", $this->mergeContext(array(
+        View::RenderRequest("Products/Products.tpl", $this->mergeContextListview(array(
             'products' => $products
         )));
     }
