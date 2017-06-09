@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{$smarty.const.SHOP_NAME}} - Admin</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     <link href="{{$domain}}/statics/css/font-awesome.css" type="text/css" rel="stylesheet">
     <link href="{{$domain}}/statics/css/jquery-ui.min.css" type="text/css" rel="stylesheet">
     <link href="{{$domain}}/statics/css/nanoscroller.css" type="text/css" rel="stylesheet">
